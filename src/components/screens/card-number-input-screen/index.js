@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import Button from '../../shared/button'
 import CardInput from '../../shared/card-input'
+import CardList from '../../shared/card-list'
+import CardContext from './context'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { cardFormSchema } from '../../../utils/schema'
-import CardList from '../../shared/card-list'
-import CardContext from './context'
 import { CardApi } from '../../../api/card'
 
 export default function Card() {
@@ -20,11 +20,13 @@ export default function Card() {
         resolver: yupResolver(cardFormSchema),
     })
 
+    const { setValue } = methods
+
     const onSubmit = async (data) => {
         await CardApi.addCard(data.cardNumber).then((res) => {
             console.log(res)
         })
-
+        setValue('cardNumber', '')
         addCard()
     }
 
