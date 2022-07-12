@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import Button from '../../shared/button'
 import CardInput from '../../shared/card-input'
 import CardList from '../../shared/card-list'
@@ -13,6 +13,15 @@ export default function Card() {
         cardNumber: '',
         cardList: [],
     })
+
+    useEffect(() => {
+        CardApi.getCardList().then((res) => {
+            setState({
+                ...state,
+                cardList: [...res],
+            })
+        })
+    }, [])
 
     const methods = useForm({
         mode: 'onChange',
